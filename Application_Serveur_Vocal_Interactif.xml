@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vxml version = "2.1" xml:lang="fr-fr" >
+	<var name="mot1" expr="'Informations'"/>
+	<var name="mot2" expr="'Renseignement'"/>
+	<var name="mot3" expr="'Simulation'"/>
+	<var name="mot4" expr="'tester'"/>
+	<var name="mot5" expr="'simulateur'"/>
+	<var name="mot6" expr="'sortir'"/>
+	<var name="mot7" expr="'oui'"/>
+	<var name="mot8" expr="'non'"/>
+	<var name="mot9" expr="'sortir'"/>
+	<var name="mot10" expr="'menu'"/>
+
+
+<!--Menu Principale-->
+	<form id="menu">
+	    <property name="inputmodes" value="voice"/>
+
+
+	    <field name="input">
+		<prompt>Bonjour, vous êtes sur une assistance dédiée à l'épidémie du corona virus</prompt>
+	        <prompt>Est-ce que, vous appelé pour avoir des informations concernant les mesures de protection, ou bien pour faire une simulation d'éventuelle suspection</prompt>
+		<grammar src="voxeo_grammaire_inputmodes.xml"/>
+			<noinput> <reprompt/></noinput>
+			<nomatch><reprompt/> </nomatch>
+	      <filled>
+		   <prompt>Très bien, nous allons vous diriger vers<value expr="input"/></prompt>
+		   <if cond="input==mot1"><goto next="#menu1"/>"
+		   <elseif cond="input==mot2"/><goto next="#menu1"/>"
+		   <elseif cond="input==mot3"/><goto next="#menu3"/>"
+		   <elseif cond="input==mot4"/><goto next="#menu3"/>"
+			</if>
+
+	      </filled>
+	    </field>
+
+
+	</form>
+
+<!--Menu D'information-->
+
+	<form id="menu1">
+	    <property name="inputmodes" value="voice"/>
+
+
+	    <field name="info">
+		<prompt>Vous êtes dans le standard de détection d'éventuelle suspection de coronavirus : </prompt>
+		<prompt>Des gestes simples peuvent aider à limiter la propagation du Coronavirus et vous protéger, vous et votre entourage : suivez-les ! </prompt>
+		<prompt>Se laver les mains très régulièrement</prompt>
+		<prompt>Tousser ou éternuer dans son coude</prompt>
+		<prompt>Utiliser des mouchoirs à usage unique</prompt>
+		<prompt>Saluer sans se serrer la main, éviter les embrassades</prompt>
+		<prompt>Le port du masque est recommandé uniquement pour :
+		-les personnes qui ont séjourné dans les zones où le virus circule activement pendant les 14 jours suivant leur retour
+		-pour les malades symptomatiques pour éviter de diffuser la maladie.
+		</prompt>
+		<prompt>Est-ce que vous voulez étre redirigé vers le simulateur ou quitter</prompt>
+		<grammar src="voxeo_grammaire_info_one.xml"/>
+			<noinput> <reprompt/></noinput>
+			<nomatch> <prompt>Desolé, je n'ai pas compris.</prompt> <reprompt/> </nomatch>
+	      <filled>
+		   <prompt>Merci! J'ai entendu <value expr="info"/></prompt>
+		   <if cond="info==mot5"><goto next="#menu2"/>"
+		   <elseif cond="info==mot6"/><goto next="#menu0"/>"
+			</if>
+	      </filled>
+	    </field>
+
+	</form>
+	
+
+<!--Menu Simulation-->
+
+		<form id="menu2">
+	    <property name="sumul" value="voice"/>
+
+
+	    <field name="sumul">
+		<prompt>Vous êtes dans le simulateur de détection d'éventuelle suspections de coronavirus, nous allons quelques questions</prompt>
+	        <prompt>Est-ce que vous avez visité un pays à risque ?</prompt>
+		<gram src="voxeo_grammaire_sumul0.xml"/>
+			<noinput> <reprompt/></noinput>
+			<nomatch><reprompt/></nomatch>
+	      <filled>
+		   <prompt>Ok, j'ai entendu <value expr="sumul"/></prompt><goto next="#menu3"/>"
+	      </filled>
+	    </field>
+		</form>
+		
+
+		<form id="menu3">
+		
+		<property name="sumulation" value="voice"/>
+		<field name="sumulation">
+			<block>Nous allons Maintenant, vous demandez</block>
+            <prompt>Est-ce que vous avez visité un pays à risque ?  comme la Chine ou l'Italie</prompt>
+			<grammar src="voxeo_grammaire_symptomes_deb.xml"/>
+            <prompt count="2">vous pouvez répéter ? s'il vous plait.</prompt>
+            <filled>
+                <prompt>juste pour confirmer vous avez bien dit : <value expr="sumulation"/>.</prompt>
+            </filled>
+        </field>
+		
+		<property name="symptomes" value="voice"/>
+		<field name="symptomes">
+			<prompt>Nous allons Maintenant, vous demander de nous indiquer si vous avez des signes qui sont semblable à la grippe comme de la toux, de fièvre et de la fatigue</prompt>
+            <prompt>Est-ce que vous avez ces symptômes  ?, c'est le cas lequels</prompt>
+			<grammar src="voxeo_grammaire_symptomes.xml"/>
+            <prompt count="2">vous pouvez répéter ? s'il vous plait.</prompt>
+            <filled>
+                <prompt>Donc ,vous avez comme symptome  de la : <value expr="symptomes"/>.</prompt>
+            </filled>
+        </field>
+
+		<field name="symptomes1">
+			<block>D'accord, c'est noté</block>
+		    <prompt>Et pour finir, Est-ce que vous avez des courbatures ou des difficulté au niveau de la respiration </prompt>
+			<grammar src="voxeo_grammaire_sumul.xml"/>
+		    <prompt count="2">vous pouvez répéter ? s'il vous plait.</prompt>
+		     <filled>
+				<prompt>D'accord, vous avez répondu : <value expr="symptomes1"/>de ce fait</prompt>
+				<if cond="symptomes1==mot7">
+				<prompt> Suite à vous réponse</prompt>
+				<goto next="#menu4"/>"
+				<elseif cond="symptomes1==mot8"/>
+				<prompt>Suite à vous réponse, nous éstimons que votre situation ne nécessite pas d'appeler le 15, nous allons vous renvoyé vers la rubrique d'informations</prompt>
+				<goto next="#menu1"/>"
+					</if>
+		            </filled>
+		        </field>
+				</form>
+
+
+
+				<form id="menu4">
+				<property name="inputmodes" value="voice"/>
+
+
+				<field name="urgent">
+				<prompt>Par mesure de sécurité, nous vous suggérons d'appeler le 15 afin d'avoir un diagnostique approfondi,</prompt>
+				<prompt>Ne nous vous rendez surtout pas ! aux urgences  ! aux urgences ou chez un médecin de ville</prompt>
+				<prompt>et surtout évitez tous contact avec vous proches ces jours ci</prompt>
+				<prompt>espérons que les réponses ont été à la hauteur de vous attentes ,nous vous prions de bien vouloir être vigilant</prompt>
+				<prompt>Est-ce que, vous souhaiter revenir ou menus de départ ou bien sortir</prompt>
+				<grammar src="voxeo_grammaire_end.xml"/>
+				<noinput> <reprompt/></noinput>
+				<nomatch><reprompt/> </nomatch>
+				<filled>
+				<prompt>Très bien, nous allons vous dériger vers<value expr="urgent"/></prompt>
+				<if cond="urgent==mot9">
+				<prompt>au revoir Madame/Monsieur</prompt>
+				<elseif cond="urgent==mot10"/><goto next="#menu"/>"
+				<prompt>Entendu, nous allons vous dériger vers le menu principale</prompt>
+				</if>
+				</filled>
+				</field>
+
+				</form>
+				
+				<!--Menus de sortie-->
+
+
+
+
+
+</vxml>

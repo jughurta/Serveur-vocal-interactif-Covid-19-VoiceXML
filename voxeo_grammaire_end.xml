@@ -1,0 +1,9 @@
+<grammar xmlns="http://www.w3.org/2001/06/grammar" xml:lang="fr-fr" root="menu0">
+<rule id="menu0" scope="public">
+<one-of>
+<item>sortir</item>
+<item>menu</item>
+<item>départ</item>
+</one-of>
+</rule>
+</grammar>

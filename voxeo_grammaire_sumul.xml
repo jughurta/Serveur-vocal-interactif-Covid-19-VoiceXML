@@ -1,0 +1,11 @@
+<grammar xmlns="http://www.w3.org/2001/06/grammar" xml:lang="fr-fr" root="menu3">
+
+<rule id="menu3" scope="public">
+<one-of>
+<item>oui</item>
+<item>non</item>
+<item>je crois</item>
+</one-of>
+</rule>
+
+</grammar>

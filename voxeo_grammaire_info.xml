@@ -1,0 +1,8 @@
+<grammar xmlns="http://www.w3.org/2001/06/grammar" xml:lang="fr-fr" root="menu1">
+<rule id="menu1" scope="public">
+<one-of>
+<item>Quitter</item>
+<item>Simulateur</item>
+</one-of>
+</rule>
+</grammar>

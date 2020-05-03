@@ -1,0 +1,10 @@
+<grammar xmlns="http://www.w3.org/2001/06/grammar" xml:lang="fr-fr" root="menu">
+<rule id="menu" scope="public">
+<one-of>
+<item>Informations</item>
+<item>Renseignement</item>
+<item>Simulation</item>
+<item>tester</item>
+</one-of>
+</rule>
+</grammar>

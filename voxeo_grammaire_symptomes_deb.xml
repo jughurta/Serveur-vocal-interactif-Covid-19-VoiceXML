@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<grammar xml:lang="fr-fr" root="menu3"  xmlns="http://www.w3.org/2001/06/grammar" >
+<rule id="menu3" scope="public">
+	<one-of>
+		<item>Oui</item>
+		<item>Non</item>
+	</one-of>
+</rule>
+</grammar>
